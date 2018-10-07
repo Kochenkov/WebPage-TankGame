@@ -1,0 +1,12 @@
+#tank1 {
+	position: absolute;
+	z-index: 1;
+}
+#tower1 {
+	position: absolute;
+	z-index: 2;
+}
+#div1 {
+	margin:auto;
+	height: 100vh;
+}
