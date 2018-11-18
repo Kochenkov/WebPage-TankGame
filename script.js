@@ -66,7 +66,7 @@ document.onkeydown = function(e) {
 document.addEventListener("click", function(e){
 	if (click==true) {
 		var hole = document.createElement('img');
-		hole.src = 'images/hole.png';
+		hole.src = 'images/hole.gif';
 		hole.style.position = 'absolute';
 		var bullet = document.createElement('img');
 		bullet.src = 'images/снаряд.png';
