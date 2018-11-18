@@ -19,11 +19,11 @@ var yBullet=0;
 var reload = function() {
 	xPozTower = xPozTank;
 	yPozTower = yPozTank;
-		document.getElementById('tank1').style.left =  xPozTank + 'px';
-		document.getElementById('tank1').style.top =  yPozTank + 'px';
-		document.getElementById('tower1').style.left =  xPozTower + 'px';
-		document.getElementById('tower1').style.top =  yPozTower + 'px';	
-	}
+	document.getElementById('tank1').style.left =  xPozTank + 'px';
+	document.getElementById('tank1').style.top =  yPozTank + 'px';
+	document.getElementById('tower1').style.left =  xPozTower + 'px';
+	document.getElementById('tower1').style.top =  yPozTower + 'px';	
+}
 
 reload(); //сразу обновляем позицию элементов дом-дерева
 
