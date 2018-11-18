@@ -82,7 +82,7 @@ document.addEventListener("click", function(e){
 		bullet.style.left = tank1.xBullet + 'px';
 		bullet.style.top = tank1.yBullet + 'px';
 	
-		if ((tank1.hypotenuse>100)&&(tank1.hypotenuse<1000)) {
+		if ((tank1.hypotenuse>=100)&&(tank1.hypotenuse<=1000)) {
 			click=false;
 			setTimeout (function() {click=true},1000);
 			document.getElementById("div1").appendChild(bullet);
@@ -107,10 +107,20 @@ document.addEventListener("click", function(e){
 			}, 10);
 
 		}
-		else {
+		else if (tank1.hypotenuse<100) {
+			click=false;
+			setTimeout (function() {click=true},1000);
 			var audioDistance = new Audio();
 			audioDistance.preload = 'auto';
-			audioDistance.src = 'sounds/distance.mp3';
+			audioDistance.src = 'sounds/wery_close_distance.mp3';
+			audioDistance.play();
+		}
+		else if (tank1.hypotenuse>1000){
+			click=false;
+			setTimeout (function() {click=true},1000);
+			var audioDistance = new Audio();
+			audioDistance.preload = 'auto';
+			audioDistance.src = 'sounds/wery_long_distance.mp3';
 			audioDistance.play();
 		}
 	}
