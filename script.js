@@ -37,28 +37,28 @@ tank1.reload(); //сразу обновляем позицию элементо�
 var timerBullet = setInterval;
 var click = true;
 
-// движение и поворот танка
+// передвижение и поворот танка
 document.onkeydown = function(e) {
 	if (e.keyCode==68) {
 		tank1.angleTank = tank1.angleTank +5;
 		tank1.radTank = tank1.angleTank*Math.PI/180;
 		tank1.rotateTank = 'rotate('+tank1.angleTank+'deg'+')';
 		document.getElementById('tank1').style.transform = tank1.rotateTank;
-		}
+	}
 	if (e.keyCode==65) {
 		tank1.angleTank = tank1.angleTank -5;
 		tank1.radTank = tank1.angleTank*Math.PI/180;
 		tank1.rotateTank = 'rotate('+tank1.angleTank+'deg'+')';
 		document.getElementById('tank1').style.transform = tank1.rotateTank;
-		}
+	}
 	if (e.keyCode==87) {
 		tank1.yPozTank = tank1.yPozTank - 5*(Math.cos(tank1.radTank));
 		tank1.xPozTank = tank1.xPozTank + 5*(Math.sin(tank1.radTank));
-		}
+	}
 	if (e.keyCode==83) {
 		tank1.yPozTank = tank1.yPozTank + 5*(Math.cos(tank1.radTank));
 		tank1.xPozTank = tank1.xPozTank - 5*(Math.sin(tank1.radTank));
-		}
+	}
 	tank1.reload();
 }
 
@@ -102,7 +102,7 @@ document.addEventListener("click", function(e){
 					hole.style.left = tank1.xBullet -hole.width/2 + 'px';
 					hole.style.top = tank1.yBullet -hole.height/2 + 'px';
 					document.getElementById("div1").appendChild(hole);
-					}
+				}
 
 			}, 10);
 
@@ -125,7 +125,6 @@ document.addEventListener("click", function(e){
 		}
 	}
 })
-
 
 // поворот башни 
 document.getElementById('div1').onmousemove = function(e) {
