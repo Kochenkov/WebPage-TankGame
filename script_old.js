@@ -1,26 +1,28 @@
+// Это старый скрип, написанный в полу-ООП стиле
+//(в данный момент не работает, есть ошибки при переносе) 
+//Сделал новый, без класса танка. В данной задаче класс не нужен
+
 var tank = function (xPozTank, yPozTank, tankId, towerId){
-	
 	this.wTank = document.getElementById(tankId).width;
 	this.hTank = document.getElementById(tankId).height;
 	this.xPozTank = xPozTank;
 	this.yPozTank = yPozTank;
 	this.angleTank = 0;
 	this.angleTower = 0;
-	
 	this.rotateTank;
 	this.rotateTower;
 	this.radTank = 0;
 	this.radTower = 0;
-
 	this.xCenter = (this.xPozTank+this.wTank/2);
 	this.yCenter = (this.yPozTank+this.hTank/2);
 	this.sinTower;
 	this.hypotenuse;
-
 	this.xBullet=0;
 	this.yBullet=0;
+	this.timerBullet = setInterval;
+	this.click = true;
 	
-	// обновление позиции танка (входит в передвижение)
+	// обновление позиции танка
 	this.reload = function() {
 		this.xPozTower = this.xPozTank;
 		this.yPozTower = this.yPozTank;
@@ -29,35 +31,55 @@ var tank = function (xPozTank, yPozTank, tankId, towerId){
 		document.getElementById(towerId).style.left =  this.xPozTower + 'px';
 		document.getElementById(towerId).style.top =  this.yPozTower + 'px';	
 	}
+	//изменение координаты поворота
+	this.turning = function(num) {
+		this.angleTank = this.angleTank + num;
+		this.radTank = this.angleTank*Math.PI/180;
+		this.rotateTank = 'rotate('+this.angleTank+'deg'+')';
+		document.getElementById(tankId).style.transform = this.rotateTank;
+	}
+	//изменение координаты движения
+	this.going = function(num1, num2) {
+		this.yPozTank = this.yPozTank + num1*(Math.cos(this.radTank));
+		this.xPozTank = this.xPozTank + num2*(Math.sin(this.radTank));
+	}
+	
+	this.rotation = function() {
+		this.xCenter = (this.xPozTank+this.wTank/2);
+		this.yCenter = (this.yPozTank+this.hTank/2);
+		//тут ошибка, нельзя перенести 'e' внутрь класса. Или можно? Пока вообще уберу ООП.
+		this.sinTower = ((e.pageY-this.yCenter)/(Math.sqrt(((e.pageY-this.yCenter)**2)+((e.pageX-this.xCenter)**2))));
+		this.radTower = Math.asin(this.sinTower);
+		this.angleTower = this.radTower*180/Math.PI;
+		if ((e.pageX-this.xCenter)>0) {
+			this.angleTower = this.radTower*180/Math.PI+90;
+			this.rotateTower = 'rotate('+this.angleTower+'deg'+')';	
+			document.getElementById(towerId).style.transform = this.rotateTower;
+		}
+		else {
+			this.angleTower = -this.radTower*180/Math.PI-90;
+			this.rotateTower = 'rotate('+this.angleTower+'deg'+')';	
+			document.getElementById(towerId).style.transform = this.rotateTower;
+		}
+	}
 }
 
 var tank1 = new tank(500, 200, 'tank1','tower1');
 tank1.reload(); //сразу обновляем позицию элементов дом-дерева
 
-var timerBullet = setInterval;
-var click = true;
-
-// передвижение и поворот танка
+// движение и поворот танка
 document.onkeydown = function(e) {
 	if (e.keyCode==68) {
-		tank1.angleTank = tank1.angleTank +5;
-		tank1.radTank = tank1.angleTank*Math.PI/180;
-		tank1.rotateTank = 'rotate('+tank1.angleTank+'deg'+')';
-		document.getElementById('tank1').style.transform = tank1.rotateTank;
+		tank1.turning(5);
 	}
 	if (e.keyCode==65) {
-		tank1.angleTank = tank1.angleTank -5;
-		tank1.radTank = tank1.angleTank*Math.PI/180;
-		tank1.rotateTank = 'rotate('+tank1.angleTank+'deg'+')';
-		document.getElementById('tank1').style.transform = tank1.rotateTank;
+		tank1.turning(-5);
 	}
 	if (e.keyCode==87) {
-		tank1.yPozTank = tank1.yPozTank - 5*(Math.cos(tank1.radTank));
-		tank1.xPozTank = tank1.xPozTank + 5*(Math.sin(tank1.radTank));
+		tank1.going(-5,5);
 	}
 	if (e.keyCode==83) {
-		tank1.yPozTank = tank1.yPozTank + 5*(Math.cos(tank1.radTank));
-		tank1.xPozTank = tank1.xPozTank - 5*(Math.sin(tank1.radTank));
+		tank1.going(5,-5);
 	}
 	tank1.reload();
 }
@@ -102,7 +124,7 @@ document.addEventListener("click", function(e){
 					hole.style.left = tank1.xBullet -hole.width/2 + 'px';
 					hole.style.top = tank1.yBullet -hole.height/2 + 'px';
 					document.getElementById("div1").appendChild(hole);
-				}
+					}
 
 			}, 10);
 
@@ -126,22 +148,9 @@ document.addEventListener("click", function(e){
 	}
 })
 
+
 // поворот башни 
 document.getElementById('div1').onmousemove = function(e) {
-	tank1.xCenter = (tank1.xPozTank+tank1.wTank/2);
-	tank1.yCenter = (tank1.yPozTank+tank1.hTank/2);
-	tank1.sinTower = ((e.pageY-tank1.yCenter)/(Math.sqrt(((e.pageY-tank1.yCenter)**2)+((e.pageX-tank1.xCenter)**2))));
-	tank1.radTower = Math.asin(tank1.sinTower);
-	tank1.angleTower = tank1.radTower*180/Math.PI;
-	if ((e.pageX-tank1.xCenter)>0) {
-		tank1.angleTower = tank1.radTower*180/Math.PI+90;
-		tank1.rotateTower = 'rotate('+tank1.angleTower+'deg'+')';	
-		document.getElementById('tower1').style.transform = tank1.rotateTower;
-	}
-	else {
-		tank1.angleTower = -tank1.radTower*180/Math.PI-90;
-		tank1.rotateTower = 'rotate('+tank1.angleTower+'deg'+')';	
-		document.getElementById('tower1').style.transform = tank1.rotateTower;
-	}
+	tank1.rotation();
 }
 
